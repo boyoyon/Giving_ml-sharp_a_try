@@ -179,7 +179,9 @@ def main():
     vis.run()
     vis.destroy_window()
 
-    o3d.io.write_point_cloud('displayed.ply', pcd)
+    if argc > 2:
+        o3d.io.write_point_cloud('displayed.ply', pcd)
+        print('save displayed.ply')
 
 if __name__ == '__main__':
     main()

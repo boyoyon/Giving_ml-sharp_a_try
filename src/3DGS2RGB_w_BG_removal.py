@@ -44,6 +44,8 @@ def save_ply(ply_path, lines):
 
 def main():
 
+    oTH = 0.75
+
     argv = sys.argv
     argc = len(argv)
     
@@ -97,8 +99,8 @@ def main():
 
     for i in range(nrPoints):
 
-        if i % 1000 == 0:
-            print('processing %d/%d' % ((i+1), nrPoints))
+        if i % 100000 == 0:
+            print('processing %d/%d' % (i, nrPoints))
 
         x = X[i]
         y = Y[i]
@@ -119,6 +121,8 @@ def main():
             continue
 
         o = 1/(1+np.exp(-opac[i]))
+        if o < oTH:
+            continue 
 
         r = max(0, min(255, int((f_dc_0[i] * c0 + 0.5) * 255)))
         g = max(0, min(255, int((f_dc_1[i] * c0 + 0.5) * 255)))

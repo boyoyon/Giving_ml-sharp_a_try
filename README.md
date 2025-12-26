@@ -91,6 +91,7 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 　・ホイールボタンを押しながらマウスドラッグ：モデルの平行移動<br>
 　・1/2/3 キー：モデルの回転, Shift+1･2･3：反対方向に回転<br>
 　・4/5/6キー：モデルの平行移動, Shift＋4/5/6：反対方向に平行移動<br>
+　・Ctrl＋：回転, 平行移動の動きを10倍にする<br>
 <br>
 　・「-」キー, 「^」キー：点群の大きさを変更<br>
 　　※ 3DGS-to-PC で変換した RGB PLYファイルを表示する場合は、点群を小さくした方が良いと思う。<br>
@@ -100,5 +101,28 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 <br>
 　「displayed.ply」にz値スケールされた RGB PLYが出力されます。
 </p>
+
+<br>
+
+<h2>「ml-sharp」でも MVS を試みる (しつこい･･･)</h2>
+<center><img src="images/workflow2.svg"></center>
+<p>
+多視点の位置合わせ以前に, Gaussian Splatting は, オブジェクトで隠れるはずのところにも, モヤモヤを生成するので, それを何とかしないと･･･<br>
+</p>
+
+<h3>STEP.1 マスクを作成する</h3>
+
+<p>
+　python createErodedMask.py (入力画像へのワイルドカード(例：*.png') [(侵食量)]<br>
+</p>
+
+<h3>STEP.2 ml-sharp の生成した PLY から背景の点群を削除して RGB PLY を作成する</h3>
+
+<p>
+　python 3DGS2RGB_w_BG_removal.py (ml-sharp の生成したPLY)　(マスク画像)<br>
+<br>
+　・ml-sharp の生成した PLY には内部パラメータが格納されているので, 点群座標からピクセル座標を算出し, マスク領域か否か判定して RGB PLY に点群を書き出す。
+</p>
+
 </body>
 </html>

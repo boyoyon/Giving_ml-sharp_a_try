@@ -10,6 +10,7 @@ pcd = None
 def key_callback_1(vis, action, mods):
 
     shift_pressed = (mods & 0x1) != 0
+    ctrl_pressed = (mods & 0x2) != 0
 
     #if action == 1: # on pressing
 
@@ -17,6 +18,9 @@ def key_callback_1(vis, action, mods):
         angle = -delta
     else:
         angle = delta
+
+    if ctrl_pressed:
+        angle *= 10
 
     rotation = np.array([[np.cos(angle), 0, np.sin(angle), 0],
         [0, 1, 0, 0],
@@ -31,6 +35,7 @@ def key_callback_1(vis, action, mods):
 def key_callback_2(vis, action, mods):
 
     shift_pressed = (mods & 0x1) != 0
+    ctrl_pressed = (mods & 0x2) != 0
 
     #if action == 1: # on pressing
 
@@ -38,6 +43,9 @@ def key_callback_2(vis, action, mods):
         angle = -delta
     else:
         angle = delta
+
+    if ctrl_pressed:
+        angle *= 10
 
     rotation = np.array([[1, 0, 0, 0],
         [0, np.cos(angle), -np.sin(angle), 0],
@@ -52,6 +60,7 @@ def key_callback_2(vis, action, mods):
 def key_callback_3(vis, action, mods):
 
     shift_pressed = (mods & 0x1) != 0
+    ctrl_pressed = (mods & 0x2) != 0
 
     #if action == 1: # on pressing
 
@@ -59,6 +68,9 @@ def key_callback_3(vis, action, mods):
         angle = -delta
     else:
         angle = delta
+
+    if ctrl_pressed:
+        angle *= 10
 
     rotation = np.array([[np.cos(angle), -np.sin(angle), 0, 0],
         [np.sin(angle), np.cos(angle), 0, 0],
@@ -73,6 +85,7 @@ def key_callback_3(vis, action, mods):
 def key_callback_4(vis, action, mods):
 
     shift_pressed = (mods & 0x1) != 0
+    ctrl_pressed = (mods & 0x2) != 0
 
     #if action == 1: # on pressing
 
@@ -80,6 +93,9 @@ def key_callback_4(vis, action, mods):
         offset = -delta2
     else:
         offset = delta2
+
+    if ctrl_pressed:
+        offset *= 10
 
     translate = np.array([[1, 0, 0, offset],
         [0, 1, 0, 0],
@@ -94,6 +110,7 @@ def key_callback_4(vis, action, mods):
 def key_callback_5(vis, action, mods):
 
     shift_pressed = (mods & 0x1) != 0
+    ctrl_pressed = (mods & 0x2) != 0
 
     #if action == 1: # on pressing
 
@@ -101,6 +118,9 @@ def key_callback_5(vis, action, mods):
         offset = -delta2
     else:
         offset = delta2
+
+    if ctrl_pressed:
+        offset *= 10
 
     translate = np.array([[1, 0, 0, 0],
         [0, 1, 0, offset],
@@ -115,6 +135,7 @@ def key_callback_5(vis, action, mods):
 def key_callback_6(vis, action, mods):
 
     shift_pressed = (mods & 0x1) != 0
+    ctrl_pressed = (mods & 0x2) != 0
 
     #if action == 1: # on pressing
 
@@ -122,6 +143,9 @@ def key_callback_6(vis, action, mods):
         offset = -delta2
     else:
         offset = delta2
+
+    if ctrl_pressed:
+        offset *= 10
 
     translate = np.array([[1, 0, 0, 0],
         [0, 1, 0, 0],

@@ -124,5 +124,12 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 　・ml-sharp の生成した PLY には内部パラメータが格納されているので, 点群座標からピクセル座標を算出し, マスク領域か否か判定して RGB PLY に点群を書き出す。
 </p>
 
+<br>
+
+<h3>その他</h3>
+<p>
+　ml-sharp は風景画が得意かも･･･
+</p>
+<center><img src="images/paint.gif"></center>
 </body>
 </html>

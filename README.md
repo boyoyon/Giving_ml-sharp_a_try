@@ -13,7 +13,7 @@
 </p>
 <center><img src="images/workflow.svg"></center>
 <p>
-<a href="https://github.com/Lewis-Stuart-11/3DGS-to-PC">3DGS-to-PC</a> で3DGS PLYをPoint Clpodに変換した場合 (z値を2倍にした)<br>
+<a href="https://github.com/Lewis-Stuart-11/3DGS-to-PC">3DGS-to-PC</a> で3DGS PLYをPoint Cloudに変換した場合 (z値を2倍にした)<br>
 <center><img src="images/sample_3dgc2pc.gif"></center><br>
 Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡易的に RGB PLY に変換した場合 (z値を2倍にした)<br>
 <center><img src="images/sample.gif"></center><br>
@@ -34,7 +34,7 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 </p>
 
 <h3>STEP2: 3DGS PLY を RGB PLY に変換する</h3>
-<h4>2-1： 3DGS-to-PC で Gaussian Splatting を Point Clound に変換する</h4>
+<h4>2-1： 3DGS-to-PC で Gaussian Splatting を Point Clond に変換する</h4>
 ※ 簡易変換でいくなら 2-1 はスキップ<br>
 <p>
 　・<a href="https://github.com/Lewis-Stuart-11/3DGS-to-PC">3DGS-to-PC</a> で Code → Download ZIP<br>
@@ -77,8 +77,8 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 <h3>STEP3: Z値の大きい点群を削除する</h3>
 <p>
 　Z値の大きい点群が不要な場合は削除する<br>
-　python Ztrancate.py (RGB PLYファイル) [(パーセント)]<br>
-<center><img src="images/Ztrancate.svg"></center>
+　python Ztruncate.py (RGB PLYファイル) [(パーセント)]<br>
+<center><img src="images/Ztruncate.svg"></center>
 </p>
 
 <h3>STEP4: RGB PLY を表示する</h3>
@@ -98,7 +98,7 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 　・「p」キー：スクリーンショット<br>
 　・「ESC]キー：終了<br>
 <br>
-　「dhisplayed.ply」にz値スケールされた RGB PLYが出力されます。
+　「displayed.ply」にz値スケールされた RGB PLYが出力されます。
 </p>
 </body>
 </html>

@@ -1,0 +1,32 @@
+ply
+format binary_little_endian 1.0
+element vertex 1179648
+property float x
+property float y
+property float z
+property float f_dc_0
+property float f_dc_1
+property float f_dc_2
+property float opacity
+property float scale_0
+property float scale_1
+property float scale_2
+property float rot_0
+property float rot_1
+property float rot_2
+property float rot_3
+element extrinsic 16
+property float extrinsic
+element intrinsic 9
+property float intrinsic
+element image_size 2
+property uint image_size
+element frame 2
+property int frame
+element disparity 2
+property float disparity
+element color_space 1
+property uchar color_space
+element version 3
+property uchar version
+end_header

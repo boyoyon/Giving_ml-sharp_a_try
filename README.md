@@ -34,7 +34,7 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 </p>
 
 <h3>STEP2: 3DGS PLY を RGB PLY に変換する</h3>
-<h4>2-1： 3DGS-to-PC で Gaussian Splatting を Point Clond に変換する</h4>
+<h4>2-1： 3DGS-to-PC で Gaussian Splatting を Point Cloud に変換する</h4>
 ※ 簡易変換でいくなら 2-1 はスキップ<br>
 <p>
 　・<a href="https://github.com/Lewis-Stuart-11/3DGS-to-PC">3DGS-to-PC</a> で Code → Download ZIP<br>

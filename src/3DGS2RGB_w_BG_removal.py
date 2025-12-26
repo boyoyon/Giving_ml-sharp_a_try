@@ -1,6 +1,6 @@
-from plyfile import PlyData
+from plyfile import PlyData, PlyElement
 import numpy as np
-import glob, os, sys
+import cv2, os, sys
 
 def save_ply(ply_path, lines):
 
@@ -42,25 +42,47 @@ def save_ply(ply_path, lines):
         for line in lines:
             f.write(line)
 
-argv = sys.argv
-argc = len(argv)
+def main():
 
-print('%s converts 3DGS ply to RGB ply' % argv[0])
-print('[usage] python %s <wildcard for plys>' % argv[0])
-
-if argc < 2:
-    quit()
-
-paths = glob.glob(argv[1])
-
-for i, path in enumerate(paths):
-
-    print('processing %d/%d(%s)' % ((i+1), len(paths), path))
-
-    plydata = PlyData.read(path)
+    argv = sys.argv
+    argc = len(argv)
+    
+    print('%s creates RGB ply from 3DGS ply with background removed' % argv[0])
+    print('[usage] python %s <3DGS ply> <mask>' % argv[0])
+    
+    if argc < 3:
+        quit()
+    
+    plydata = PlyData.read(argv[1])
+    mask = cv2.imread(argv[2], cv2.IMREAD_UNCHANGED)
+    Hmask = mask.shape[0]
+    Wmask = mask.shape[1]
+    
     X = plydata['vertex']['x']
     Y = plydata['vertex']['y']
     Z = plydata['vertex']['z']
+    
+    intrinsic = plydata['intrinsic']['intrinsic'].reshape(3,3)
+    fx = intrinsic[0][0]
+    fy = intrinsic[1][1]
+    cx = intrinsic[0][2]
+    cy = intrinsic[1][2]
+    
+    image_size = plydata['image_size']['image_size']
+    
+    if Wmask != image_size[0] or Hmask != image_size[1]:
+        mask = cv2.resize(mask, image_size)
+
+    opac = plydata['vertex']['opacity']
+
+    f_dc_0 = plydata['vertex']['f_dc_0']
+    f_dc_1 = plydata['vertex']['f_dc_1']
+    f_dc_2 = plydata['vertex']['f_dc_2']
+
+    lines = []
+
+    nrPoints = X.shape[0]
+    c0 = 1 / (1.77 * 2)
 
     opac = plydata['vertex']['opacity']
 
@@ -75,9 +97,26 @@ for i, path in enumerate(paths):
 
     for i in range(nrPoints):
 
+        if i % 1000 == 0:
+            print('processing %d/%d' % ((i+1), nrPoints))
+
         x = X[i]
         y = Y[i]
         z = Z[i]
+    
+        xx = fx * x + cx * z
+        yy = fy * y + cy * z
+    
+        u = int(xx / z)
+        if u < 0 or u >= image_size[0]:
+            continue
+    
+        v = int(yy / z)
+        if v < 0 or v >= image_size[1]:
+            continue
+    
+        if mask[v][u] == 0:
+            continue
 
         o = 1/(1+np.exp(-opac[i]))
 
@@ -89,9 +128,12 @@ for i, path in enumerate(paths):
 
         lines.append(line)
 
-    base = os.path.basename(path)
+    base = os.path.basename(argv[1])
     filename = os.path.splitext(base)[0]
     dst_path = '%s_3dgs2rgb.ply' % filename
     save_ply(dst_path, lines)
     print('save %s' % dst_path)
+
+if __name__ == '__main__':
+    main()
 

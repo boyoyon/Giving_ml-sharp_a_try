@@ -66,10 +66,6 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 <br>
 　・python gauss_to_pc.py --input_path (ml-sharp が出力したPLYファイル) --no_render_colours <br>
 　　「3dgs_pc.ply」に RGB PLY が出力される。 <br>
-<br>
-　　PLYファイル一個一個変換するのも面倒なので, フォルダごと変換するものを作成した。<br>
-　　python 3dgs2pc.py (3DGS PLYを格納したフォルダ)　(出力フォルダ)<br>
-　　※ 「3DGS-to-PC」フォルダに「3dgs2pc.py」を配置して実行する。<br>
 
 <h4>2-2： 簡易変換で 3DGS PLY を RGB PLY に変換する</h4>
 ※ 3DGS-to-PC で RGB PLY に変換する場合は, 2-2はスキップ。<br>
@@ -130,19 +126,17 @@ Gaussian Splatting の 直流成分?(f_dc_*) をテキトーに変換して簡�
 
 <br>
 
-<h3>3DGS PLY を UV(テクスチャー座標) PLYに変換する</h3>
-<center><img src="images/workflow3.svg"></center>
+<h2>点群をメッシュに変換する</h2>
 <p>
-　せっかくなのでテクスチャー座標つきPLYに変換するツールも作成した。が、いまいち。<br>
+　python src/PointCloud2Mesh.py (点群PLY) [(-reserve)]<br>
 </p>
-<center><img src="images/result_UVply.png"></center>
-
+<img src="images/PointCloud2Mesh.svg">
 <p>
-　python 3DGSply2UVply.py (3DGS PLYファイル)　[(間引き量)]
-　ドロネー変換に時間が掛かるので適当に間引いている。<br>
+　python src/o3d_display_mesh.py (メッシュPLYファイル) [-normal]<br>
+　一見きれいにメッシュに変換されている様に見えているが、実はほっぺたに穴やでっぱりがあったりする。<br>
+　第二引数に -normal を指定するとはっきり見える････(気味が悪い画像なので載せないが)<br>
 <br>
-　<a href="https://github.com/boyoyon/RgbPly">RgbPly</a> で表示する。<br>
-　python RgbImg.py (RGB画像) (UV PLY) [z値スケール]
+　点群の処理は不慣れなので, ピクセル座標に戻して深度画像を作成して, 画像処理でごまかして, 再度PLY化するか･･･
 </p>
 
 <h3>その他</h3>

@@ -12,7 +12,7 @@ translation_step = 0.005
 scale_up = 1.1
 scale_down = 0.9
 
-pcd = None
+mesh = None
 
 def key_callback_updown_angle_step(vis, action, mods):
 
@@ -41,8 +41,6 @@ def key_callback_updown_angle_step(vis, action, mods):
         else:
 
             angle_step *= 0.9
-
-    print(angle_step, translation_step)
 
     return True
 
@@ -74,8 +72,6 @@ def key_callback_updown_translation_step(vis, action, mods):
 
             translation_step *= 0.9
 
-    print(angle_step, translation_step)
-
     return True
 
 def key_callback_1(vis, action, mods):
@@ -99,7 +95,7 @@ def key_callback_1(vis, action, mods):
         [0, 0, 0, 1]])
 
     transform = rotation #@ transform
-    pcd.transform(transform)
+    mesh.transform(transform)
 
     return True
 
@@ -124,7 +120,7 @@ def key_callback_2(vis, action, mods):
         [0, 0, 0, 1]])
 
     transform = rotation #@ transform
-    pcd.transform(transform)
+    mesh.transform(transform)
 
     return True
 
@@ -149,7 +145,7 @@ def key_callback_3(vis, action, mods):
         [0, 0, 0, 1]])
 
     transform = rotation #@ transform
-    pcd.transform(transform)
+    mesh.transform(transform)
 
     return True
 
@@ -174,7 +170,7 @@ def key_callback_4(vis, action, mods):
         [0, 0, 0, 1]])
 
     transform = translate
-    pcd.transform(transform)
+    mesh.transform(transform)
 
     return True
 
@@ -199,7 +195,7 @@ def key_callback_5(vis, action, mods):
         [0, 0, 0, 1]])
 
     transform = translate
-    pcd.transform(transform)
+    mesh.transform(transform)
 
     return True
 
@@ -224,7 +220,7 @@ def key_callback_6(vis, action, mods):
         [0, 0, 0, 1]])
 
     transform = translate
-    pcd.transform(transform)
+    mesh.transform(transform)
 
     return True
 
@@ -242,7 +238,7 @@ def key_callback_reset_step(vis, action, mod):
 def key_callback_scale_up(vis, action, mod):
 
     if action == 1: # on pressing
-
+    
         scale = np.array([
             [scale_up, 0,        0,        0],
             [0,        scale_up, 0,        0],
@@ -250,10 +246,10 @@ def key_callback_scale_up(vis, action, mod):
             [0,        0,        0,        1]])
 
         transform = scale
-        pcd.transform(transform)
+        mesh.transform(transform)
 
-        center = pcd.get_center()
-        pcd.translate(-center)
+        center = mesh.get_center()
+        mesh.translate(-center)
     
     return True
 
@@ -269,48 +265,39 @@ def key_callback_scale_down(vis, action, mod):
             [0,          0,          0,          1]])
 
         transform = scale
-        pcd.transform(transform)
+        mesh.transform(transform)
 
-        center = pcd.get_center()
-        pcd.translate(-center)
+        center = mesh.get_center()
+        mesh.translate(-center)
     
     return True
 
 def main():
 
-    global pcd
+    global mesh
+
+    flag_normal = False
 
     argv = sys.argv
     argc = len(argv)
 
-    print('%s loads ply and visualizes 3d model' % argv[0])
-    print('[usage] python %s <ply file> [<zscale>]' % argv[0])
-
     if argc < 2:
+        print('%s loads and displays mesh file (.ply)' % argv[0])
+        print('%s <mesh ply file> [<-normal>]' % argv[0])
         quit()
 
-    pcd = o3d.io.read_point_cloud(argv[1])
+    mesh =  o3d.io.read_triangle_mesh(argv[1])
 
-    if argc > 2:
-        zscale = float(argv[2])
+    if argc > 2 and argv[2] == '-normal':
+        mesh.compute_vertex_normals()
 
-        # 点の座標をNumPy配列として取得
-        # pointsは (N, 3) の配列。列は [x, y, z]
-        points = np.asarray(pcd.points)
-
-        # Z座標（インデックス2）をスケーリング
-        points[:, 2] *= zscale
-
-        # 加工した配列を点群オブジェクトに戻す
-        pcd.points = o3d.utility.Vector3dVector(points)
-
-    center = pcd.get_center()
-    pcd.translate(-center)
+    center = mesh.get_center()
+    mesh.translate(-center)
 
     # 可視化の設定
     vis = o3d.visualization.VisualizerWithKeyCallback()
     vis.create_window()
-    vis.add_geometry(pcd)
+    vis.add_geometry(mesh)
     vis.register_key_action_callback(ord("0"), key_callback_reset_step)
     vis.register_key_action_callback(ord("1"), key_callback_1)
     vis.register_key_action_callback(ord("2"), key_callback_2)
@@ -327,15 +314,6 @@ def main():
     vis.run()
     vis.destroy_window()
 
-    if argc > 2:
-        dst_path = 'displayed.ply'
-        no = 2
-        while os.path.exists(dst_path):
-            dst_path = 'displayed_%d.ply' % no
-            no += 1
-
-        o3d.io.write_point_cloud(dst_path, pcd)
-        print('save %s' % dst_path)
 
 if __name__ == '__main__':
     main()

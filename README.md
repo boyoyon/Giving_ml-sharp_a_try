@@ -4,6 +4,9 @@
     </head>
     <body>
 <h1><center>「ml-sharp」をちょっと試してみる</center></h1>
+
+※ ml-DepthPro2 は <a href="https://github.com/boyoyon/RgbDepth"> こちら </a>
+
 <h2>なにものか？</h2>
 <p>
 <a href="https://github.com/apple/ml-sharp">apple の「ml-sharp」</a> をちょっと試したら
